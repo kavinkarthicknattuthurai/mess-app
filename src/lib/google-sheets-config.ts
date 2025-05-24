@@ -12,7 +12,7 @@ export const GOOGLE_SHEETS_CONFIG = {
   
   // Sheet name for June menu selections
   // Using the sheet name from the shared spreadsheet
-  sheetName: 'Sheet1', // If you have a specific tab name, change this to match
+  sheetName: process.env.GOOGLE_SHEET_NAME || 'June Menu Selections',
   
   // Service account credentials
   credentials: {
