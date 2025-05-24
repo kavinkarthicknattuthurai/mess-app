@@ -1,8 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+  const [studentName, setStudentName] = useState('');
+  const [studentId, setStudentId] = useState('');
+  
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="card">
@@ -19,6 +25,8 @@ export default function Home() {
                 placeholder="Student Name"
                 className="input"
                 required
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
               />
             </div>
             
@@ -28,6 +36,8 @@ export default function Home() {
                 placeholder="Student ID"
                 className="input"
                 required
+                value={studentId}
+                onChange={(e) => setStudentId(e.target.value)}
               />
             </div>
             
@@ -35,13 +45,10 @@ export default function Home() {
                 type="button"
                 className="btn-primary"
                 onClick={() => {
-                  const nameInput = document.querySelector('input[placeholder="Student Name"]') as HTMLInputElement;
-                  const idInput = document.querySelector('input[placeholder="Student ID"]') as HTMLInputElement;
-                  
-                  if (nameInput && idInput && nameInput.value && idInput.value) {
-                    localStorage.setItem('studentName', nameInput.value);
-                    localStorage.setItem('studentId', idInput.value);
-                    window.location.href = '/month-selection';
+                  if (studentName && studentId) {
+                    localStorage.setItem('studentName', studentName);
+                    localStorage.setItem('studentId', studentId);
+                    router.push('/month-selection');
                   } else {
                     alert('Please enter both Student Name and Student ID');
                   }
