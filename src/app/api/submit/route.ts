@@ -13,17 +13,18 @@ interface SubmissionData {
   };
 }
 
-// Google Sheets configuration
-const SPREADSHEET_ID = '10wToXCkzryk-MuKNx7jhxVMtkiCXokTiQiuWizYci38';
-const SHEET_NAME = 'June Menu Selections';
+// Google Sheets configuration from environment variables
+const SPREADSHEET_ID = process.env.GOOGLE_SHEETS_ID || '10wToXCkzryk-MuKNx7jhxVMtkiCXokTiQiuWizYci38';
+const SHEET_NAME = process.env.GOOGLE_SHEET_NAME || 'June Menu Selections';
 
-// Initialize Google Sheets API with service account credentials
+// Initialize Google Sheets API with service account credentials from environment variables
 const auth = new JWT({
-  email: GOOGLE_SHEETS_CONFIG.credentials.client_email,
-  key: GOOGLE_SHEETS_CONFIG.credentials.private_key,
+  email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || GOOGLE_SHEETS_CONFIG.credentials.client_email,
+  key: process.env.GOOGLE_PRIVATE_KEY || GOOGLE_SHEETS_CONFIG.credentials.private_key,
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
+// Create sheets client
 const sheets = google.sheets({ version: 'v4', auth });
 
 // Helper function to validate submission data
