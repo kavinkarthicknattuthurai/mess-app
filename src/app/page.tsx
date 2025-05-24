@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 export default function Home() {
@@ -29,14 +31,24 @@ export default function Home() {
               />
             </div>
             
-            <Link href="/month-selection" className="block mt-4">
-              <button
+            <button
                 type="button"
                 className="btn-primary"
+                onClick={() => {
+                  const nameInput = document.querySelector('input[placeholder="Student Name"]') as HTMLInputElement;
+                  const idInput = document.querySelector('input[placeholder="Student ID"]') as HTMLInputElement;
+                  
+                  if (nameInput && idInput && nameInput.value && idInput.value) {
+                    localStorage.setItem('studentName', nameInput.value);
+                    localStorage.setItem('studentId', idInput.value);
+                    window.location.href = '/month-selection';
+                  } else {
+                    alert('Please enter both Student Name and Student ID');
+                  }
+                }}
               >
                 Submit
               </button>
-            </Link>
           </form>
         </div>
         

@@ -19,9 +19,25 @@ export default function MenuSelection() {
   const router = useRouter();
   const month = params.month as string;
   
-  const [studentId, setStudentId] = useState('');
-  const [studentName, setStudentName] = useState('');
-  const [currentStep, setCurrentStep] = useState(0);
+  // Initialize state with localStorage values if they exist
+  const [studentId, setStudentId] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('studentId') || '';
+    }
+    return '';
+  });
+  const [studentName, setStudentName] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('studentName') || '';
+    }
+    return '';
+  });
+  const [currentStep, setCurrentStep] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('studentId') && localStorage.getItem('studentName') ? 1 : 0;
+    }
+    return 0;
+  });
   const [selections, setSelections] = useState<Record<number, boolean | null>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,17 +66,7 @@ export default function MenuSelection() {
     }
   ];
 
-  // Load student info from localStorage if available
-  useEffect(() => {
-    const savedStudentId = localStorage.getItem('studentId');
-    const savedStudentName = localStorage.getItem('studentName');
-    
-    if (savedStudentId && savedStudentName) {
-      setStudentId(savedStudentId);
-      setStudentName(savedStudentName);
-      setCurrentStep(1); // Skip the student info step
-    }
-  }, []);
+  // Student info is now loaded directly in the initial state
 
   // Handle navigation to next menu item
   const goToNext = () => {
